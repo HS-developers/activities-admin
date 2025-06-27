@@ -106,9 +106,7 @@
       display: inline-block;
       letter-spacing: 1px;
     }
-    .export-btn {
-      background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
-      color: #fff;
+    .export-btn, .football-btn {
       border: none;
       border-radius: 8px;
       padding: 9px 34px;
@@ -119,14 +117,46 @@
       box-shadow: 0px 2px 10px rgba(24, 90, 157, 0.13);
       transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
       letter-spacing: 0.5px;
-      margin: 0 0 10px 0;
+      margin: 0 6px 10px 0;
       display: inline-block;
+    }
+    .export-btn {
+      background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+      color: #fff;
     }
     .export-btn:hover {
       background: linear-gradient(90deg, #185a9d 10%, #43cea2 100%);
       color: #fffde7;
       box-shadow: 0px 4px 18px rgba(24, 90, 157, 0.18);
       transform: scale(1.04);
+    }
+    .football-btn {
+      background: linear-gradient(90deg, #ffd600 50%, #ff9800 100%);
+      color: #2d2d2d;
+      border: 2.5px solid #ff9800;
+      font-size: 1.05em;
+      box-shadow: 0px 2px 9px #ffecb3;
+      position: relative;
+      overflow: hidden;
+    }
+    .football-btn::before {
+      content: "🏆";
+      font-size: 1.3em;
+      margin-left: 7px;
+      vertical-align: middle;
+      color: #ff9800;
+      animation: football-glow 1.5s infinite alternate;
+    }
+    @keyframes football-glow {
+      from { text-shadow: 0 0 2px #ffd600, 0 0 8px #ff9800; }
+      to   { text-shadow: 0 0 12px #ffd600, 0 0 18px #ff9800; }
+    }
+    .football-btn:hover {
+      background: linear-gradient(90deg, #ff9800 20%, #ffd600 100%);
+      color: #fff;
+      border-color: #ffd600;
+      box-shadow: 0px 4px 18px #ffd60066;
+      transform: scale(1.05) rotate(-1deg);
     }
     .admin-table-container {
       width: 100%;
@@ -205,11 +235,12 @@
       .panel-container { padding: 11px 1vw;}
       th, td { font-size: 0.95em; padding: 7px 3px;}
       .admin-filters, .admin-total { font-size: 0.98em;}
-      .export-btn, .logout-btn { font-size: 0.95em; padding: 8px 18px;}
+      .export-btn, .football-btn, .logout-btn { font-size: 0.95em; padding: 8px 18px;}
     }
     @media (max-width: 400px) {
-      th, td, .admin-filters, .admin-total, .export-btn, .logout-btn { font-size: 0.81em;}
+      th, td, .admin-filters, .admin-total, .export-btn, .football-btn, .logout-btn { font-size: 0.81em;}
       .panel-container { padding: 4px 1vw;}
+      .export-btn, .football-btn { padding: 8px 12px;}
     }
   </style>
 </head>
@@ -243,7 +274,10 @@
         </div>
       </div>
       <div class="admin-total" id="totalCountBox">إجمالي المسجلين: ...</div>
-      <button class="export-btn" id="exportBtn">تصدير البيانات إلى Excel</button>
+      <div style="display: flex; flex-wrap:wrap; align-items:center; gap:7px; margin-bottom:10px;">
+        <button class="export-btn" id="exportBtn">تصدير البيانات إلى Excel</button>
+        <button class="football-btn" id="footballBtn">دوري أبطال كنز</button>
+      </div>
       <div class="admin-table-container">
         <table id="dataTable">
           <thead>
@@ -265,7 +299,7 @@
     </div>
   </main>
   <footer>
-    جميع الحقوق محفوظة © بوابة كنز للأنشطة الترفيهية 2025
+    Copyright © 2025 GENIUS Tech All Rights Reserved
   </footer>
   <!-- Firebase & XLSX -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -301,6 +335,7 @@
     const userIdFilter = document.getElementById('userIdFilter');
     const totalCountBox = document.getElementById('totalCountBox');
     const exportBtn = document.getElementById('exportBtn');
+    const footballBtn = document.getElementById('footballBtn');
 
     // دالة لتنسيق التاريخ بالإنجليزية
     function formatDateEnglish(dateObj) {
@@ -381,6 +416,11 @@
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "المشتركين");
       XLSX.writeFile(wb, "kenz_activities.xlsx", {cellDates:true, bookType:"xlsx", type:"binary"});
+    });
+
+    // زر دوري أبطال كنز
+    footballBtn.addEventListener('click', function() {
+      window.location.href = 'teams.html';
     });
 
     // زر تسجيل الخروج
