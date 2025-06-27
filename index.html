@@ -154,20 +154,21 @@
   <footer>
     Copyright © 2025 GENIUS Tech All Rights Reserved
   </footer>
+
   <!-- Firebase Libraries -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script>
     // إعداد Firebase
     const firebaseConfig = {
-    apiKey: "AIzaSyBwc25f6ESvUx7Po55Mm9PQYZDT3L52dg8",
-    authDomain: "kenz-activities.firebaseapp.com",
-    projectId: "kenz-activities",
-    storageBucket: "kenz-activities.firebasestorage.app",
-    messagingSenderId: "323107285981",
-    appId: "1:323107285981:web:0f1cad98fb5ab5ef306434",
-    measurementId: "G-YVS8P6LQVW" 
-   };
+      apiKey: "AIzaSyBwc25f6ESvUx7Po55Mm9PQYZDT3L52dg8",
+      authDomain: "kenz-activities.firebaseapp.com",
+      projectId: "kenz-activities",
+      storageBucket: "kenz-activities.firebasestorage.app",
+      messagingSenderId: "323107285981",
+      appId: "1:323107285981:web:0f1cad98fb5ab5ef306434",
+      measurementId: "G-YVS8P6LQVW"
+    };
     firebase.initializeApp(firebaseConfig);
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -181,10 +182,17 @@
 
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const email = document.getElementById('email').value.trim();
+      const email = document.getElementById('email').value.trim().toLowerCase();
       const password = document.getElementById('password').value;
 
       errorDiv.textContent = '';
+
+      // منع بريد معين من تسجيل الدخول
+      if (email === "fun25@kenzcompound.com") {
+        errorDiv.textContent = "لا يُسمح باستخدام هذا الحساب.";
+        return;
+      }
+
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then(userCredential => {
           window.location.href = "kenz-admin-panel.html";
