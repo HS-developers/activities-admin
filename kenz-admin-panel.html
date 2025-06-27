@@ -250,9 +250,6 @@
   </header>
   <main>
     <div class="panel-container">
-      <div class="admin-actions-bar">
-        <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
-      </div>
       <div class="admin-filters">
         <div>
           <label for="activityFilter">فلتر حسب النشاط:</label>
@@ -423,12 +420,7 @@
       window.location.href = 'teams.html';
     });
 
-    // زر تسجيل الخروج
-    document.getElementById('logoutBtn').onclick = function() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = 'kenz-admin-login.html';
-      });
-    };
+    
 
     // بدء تحميل البيانات
     fetchData();
