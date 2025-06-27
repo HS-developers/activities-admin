@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>لوحة تحكم المشرفين | بوابة كنز للأنشطة الترفيهية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0;}
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #1c0171 0%, #a6c1ee 100%);
+    }
+    header {
+      width: 95%;
+      max-width: 1200px;
+      margin: 20px auto 0;
+      padding: 15px 30px;
+      background: rgba(104, 26, 26, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+      background: linear-gradient(90deg, #ff9800, #ffeb3b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      width: 100%;
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .panel-container {
+      background: #fff;
+      margin: 45px auto 30px auto;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(255,193,7,0.13);
+      padding: 27px 12px 19px 12px;
+      width: 100%;
+      max-width: 1080px;
+      animation: fadeIn 0.7s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .admin-filters {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      justify-content: start;
+      padding: 16px 16px 8px 16px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #fffde7 70%, #ffe082 100%);
+      box-shadow: 0 2px 12px #ffe08260;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+    .admin-filters label {
+      margin-left: 6px;
+      color: #ff9800;
+      font-weight: bold;
+      font-size: 1em;
+    }
+    .admin-filters select, .admin-filters input[type="text"] {
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid #ffa000;
+      font-size: 1em;
+      font-family: inherit;
+      font-weight: bold;
+      background: #fffde7;
+      color: #333;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .admin-filters select:focus, .admin-filters input[type="text"]:focus {
+      border-color: #ff9800;
+    }
+    .admin-total {
+      font-size: 1.22em;
+      color: #185a9d;
+      font-weight: bold;
+      margin: 12px 0 5px 0;
+      border-radius: 8px;
+      background: #f7f7f7;
+      padding: 8px 18px;
+      display: inline-block;
+      letter-spacing: 1px;
+    }
+    .export-btn {
+      background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 34px;
+      font-size: 1.01em;
+      font-family: 'Cairo', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0px 2px 10px rgba(24, 90, 157, 0.13);
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      letter-spacing: 0.5px;
+      margin: 0 0 10px 0;
+      display: inline-block;
+    }
+    .export-btn:hover {
+      background: linear-gradient(90deg, #185a9d 10%, #43cea2 100%);
+      color: #fffde7;
+      box-shadow: 0px 4px 18px rgba(24, 90, 157, 0.18);
+      transform: scale(1.04);
+    }
+    .admin-table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 0 auto;
+      max-width: 1040px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 1em;
+      min-width: 800px;
+      margin-top: 10px;
+      background: #fffde7;
+    }
+    th, td {
+      padding: 12px 7px;
+      text-align: center;
+      border-bottom: 1px solid #ffd54f;
+      font-family: 'Cairo', sans-serif;
+    }
+    th {
+      background: linear-gradient(90deg, #ff9800 70%, #ffe082 100%);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1em;
+      letter-spacing: 1px;
+    }
+    tr:hover {
+      background: #fff8e1;
+    }
+    .logout-btn {
+      background: linear-gradient(90deg, #ff9800 70%, #ffeb3b 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 9px 24px;
+      font-size: 1em;
+      font-family: 'Cairo', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 0 10px;
+      margin-bottom: 10px;
+      transition: background 0.3s;
+    }
+    .logout-btn:hover {
+      background: linear-gradient(90deg, #ffeb3b 10%, #ff9800 100%);
+      color: #1c0171;
+    }
+    .admin-actions-bar {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97);}
+      to { opacity: 1; transform: scale(1);}
+    }
+    footer {
+      width: 100%;
+      padding: 15px 8px;
+      background: rgba(255,255,255,0.95);
+      text-align: center;
+      font-size: 13px;
+      color: #1e1d1d;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.07);
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 800px) {
+      .panel-container { padding: 11px 1vw;}
+      th, td { font-size: 0.95em; padding: 7px 3px;}
+      .admin-filters, .admin-total { font-size: 0.98em;}
+      .export-btn, .logout-btn { font-size: 0.95em; padding: 8px 18px;}
+    }
+    @media (max-width: 400px) {
+      th, td, .admin-filters, .admin-total, .export-btn, .logout-btn { font-size: 0.81em;}
+      .panel-container { padding: 4px 1vw;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>بوابة كنز للأنشطة الترفيهية</h1>
+  </header>
+  <main>
+    <div class="panel-container">
+      <div class="admin-actions-bar">
+        <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
+      </div>
+      <div class="admin-filters">
+        <div>
+          <label for="activityFilter">فلتر حسب النشاط:</label>
+          <select id="activityFilter">
+            <option value="all">كل الأنشطة</option>
+            <option value="كرة قدم">⚽ كرة قدم</option>
+            <option value="تنس ارضي">🎾 تنس أرضي</option>
+            <option value="تنس طاولة">🏓 تنس طاولة</option>
+            <option value="كرة طائرة">🏐 كرة طائرة</option>
+            <option value="كرة سلة">🏀 كرة سلة</option>
+            <option value="قيادة دراجات">🚴‍♂️ قيادة دراجات</option>
+            <option value="شطرنج">♟️ شطرنج</option>
+            <option value="بازارات/جراج سيل">🛍️ اشتراك في بازارات/جراج سيل</option>
+          </select>
+        </div>
+        <div>
+          <label for="userIdFilter">فلتر برقم المشترك:</label>
+          <input type="text" id="userIdFilter" placeholder="ادخل رقم المشترك" style="direction:ltr;max-width:170px;">
+        </div>
+      </div>
+      <div class="admin-total" id="totalCountBox">إجمالي المسجلين: ...</div>
+      <button class="export-btn" id="exportBtn">تصدير البيانات إلى Excel</button>
+      <div class="admin-table-container">
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>رقم المشترك</th>
+              <th>الاسم</th>
+              <th>رقم التليفون</th>
+              <th>رقم الوحدة</th>
+              <th>الأنشطة</th>
+              <th>تاريخ الميلاد</th>
+              <th>تاريخ التسجيل</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="7">جاري التحميل...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <footer>
+    جميع الحقوق محفوظة © بوابة كنز للأنشطة الترفيهية 2025
+  </footer>
+  <!-- Firebase & XLSX -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // إعداد فايربيز
+    const firebaseConfig = {
+      apiKey: "AIzaSyBwc25f6ESvUx7Po55Mm9PQYZDT3L52dg8",
+      authDomain: "kenz-activities.firebaseapp.com",
+      projectId: "kenz-activities",
+      storageBucket: "kenz-activities.firebasestorage.app",
+      messagingSenderId: "323107285981",
+      appId: "1:323107285981:web:0f1cad98fb5ab5ef306434",
+      measurementId: "G-YVS8P6LQVW"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // تحقق من تسجيل دخول المشرف
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        window.location.href = 'kenz-admin-login.html';
+      }
+    });
+
+    // جلب البيانات
+    let allData = [];
+    let filteredData = [];
+    const tableBody = document.getElementById('tableBody');
+    const activityFilter = document.getElementById('activityFilter');
+    const userIdFilter = document.getElementById('userIdFilter');
+    const totalCountBox = document.getElementById('totalCountBox');
+    const exportBtn = document.getElementById('exportBtn');
+
+    // دالة لتنسيق التاريخ بالإنجليزية
+    function formatDateEnglish(dateObj) {
+      if (!dateObj) return '';
+      const date = new Date(dateObj.seconds * 1000);
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      const hh = String(date.getHours()).padStart(2, '0');
+      const min = String(date.getMinutes()).padStart(2, '0');
+      const ss = String(date.getSeconds()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
+    }
+
+    function renderTable(data) {
+      tableBody.innerHTML = "";
+      if (!data.length) {
+        tableBody.innerHTML = '<tr><td colspan="7">لا يوجد بيانات</td></tr>';
+        totalCountBox.textContent = 'إجمالي المسجلين: 0';
+        return;
+      }
+      for (const row of data) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.userId || ''}</td>
+          <td>${row.name || ''}</td>
+          <td>${row.phone || ''}</td>
+          <td>${row.unit || ''}</td>
+          <td>${Array.isArray(row.activities) ? row.activities.join(' - ') : ''}</td>
+          <td>${row.birthdate || ''}</td>
+          <td>${row.createdAt ? formatDateEnglish(row.createdAt) : ''}</td>
+        `;
+        tableBody.appendChild(tr);
+      }
+      totalCountBox.textContent = `إجمالي المسجلين: ${data.length}`;
+    }
+
+    function filterData() {
+      // فلتر النشاط
+      const selectedActivity = activityFilter.value;
+      // فلتر رقم المشترك
+      const userIdSearch = userIdFilter.value.trim();
+      filteredData = allData.filter(row => {
+        let activityMatch = selectedActivity === 'all' || (Array.isArray(row.activities) && row.activities.includes(selectedActivity));
+        let userIdMatch = true;
+        if (userIdSearch) {
+          userIdMatch = row.userId && row.userId.includes(userIdSearch);
+        }
+        return activityMatch && userIdMatch;
+      });
+      renderTable(filteredData);
+    }
+
+    // جلب بيانات المشتركين
+    async function fetchData() {
+      tableBody.innerHTML = '<tr><td colspan="7">جاري التحميل...</td></tr>';
+      const snapshot = await db.collection('kenzActivities').orderBy('createdAt', 'desc').get();
+      allData = snapshot.docs.map(doc => doc.data());
+      filterData();
+    }
+
+    activityFilter.addEventListener('change', filterData);
+    userIdFilter.addEventListener('input', filterData);
+
+    // تصدير الى Excel
+    exportBtn.addEventListener('click', function () {
+      if (!filteredData.length) return;
+      const excelData = filteredData.map(row => ({
+        "رقم المشترك": row.userId || '',
+        "الاسم": row.name || '',
+        "رقم التليفون": row.phone || '',
+        "رقم الوحدة": row.unit || '',
+        "الأنشطة": Array.isArray(row.activities) ? row.activities.join(' - ') : '',
+        "تاريخ الميلاد": row.birthdate || '',
+        "تاريخ التسجيل": row.createdAt ? formatDateEnglish(row.createdAt) : ''
+      }));
+      const ws = XLSX.utils.json_to_sheet(excelData, {cellDates:true});
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "المشتركين");
+      XLSX.writeFile(wb, "kenz_activities.xlsx", {cellDates:true, bookType:"xlsx", type:"binary"});
+    });
+
+    // زر تسجيل الخروج
+    document.getElementById('logoutBtn').onclick = function() {
+      firebase.auth().signOut().then(() => {
+        window.location.href = 'kenz-admin-login.html';
+      });
+    };
+
+    // بدء تحميل البيانات
+    fetchData();
+  </script>
+</body>
+</html>
